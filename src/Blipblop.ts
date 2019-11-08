@@ -5,6 +5,10 @@ export function createCRUD() {
 
 }
 
+export function createModelCRUDManager() {
+
+}
+
 type ModelCRUDDetails = {
   model: Model;
 

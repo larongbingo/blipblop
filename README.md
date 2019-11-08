@@ -39,13 +39,8 @@ express.use(crud);
 
 To allow for preprocessing of requests before running the Sequelize Commands, a simple lifecycle would be included. They are named "beforeProc" and "afterProc".
 ```ts
-class Book {
-    title: string;
-    description: string;
-}
-const crud = new Blipblop();
+...
 const BookCrud = crud.addModel({model: Books, prefix: "/"});
-express.use(crud);
 BookCrud.create.beforeProc(req => {
     if(!isValidSession(req.headers["Authorization"])) {
         throw new Error();
@@ -55,13 +50,8 @@ BookCrud.create.beforeProc(req => {
 
 However, you might need to use multiple preprocessing, so beforeProc and afterProc allows for queuing of functions.
 ```ts
-class Book {
-    title: string;
-    description: string;
-}
-const crud = new Blipblop();
+...
 const BookCrud = crud.addModel({model: Books, prefix: "/"});
-express.use(crud);
 BookCrud.create.beforeProc(async req => {
     if(!isValidSession(req.headers["Authorization"])) 
         throw new Error();
@@ -73,3 +63,4 @@ BookCrud.create.beforeProc(req => {
         throw new Error();
     }
 });
+```
