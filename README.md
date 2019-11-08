@@ -19,28 +19,27 @@ class Book {
     title: string;
     description: string;
 }
-const crud = new Blipblop();
-const BookCrud = crud.addModel({model: Books, prefix: "/"});
-express.use("/apis", crud);
+const BookCrud = createModelCRUDRouter({model: Books, prefix: "/"});
+express.use("/apis", BookCrud);
 ```
 
 Once a model has been added, each has 4 properties that relates to the CRUD operations. They are named "create", "read", "update" and "delete"
 
 Each CRUD Operations could be whitelisted based on your needs. In the example below, the Book CRUD operations is only allowed to use read.
 ```ts
+import { createModelCRUDRouter } from "blipblop";
 class Book {
     title: string;
     description: string;
 }
-const crud = new Blipblop();
-const BookCrud = crud.addModel({model: Books, prefix: "/", allowedCRUDOperations: ["read"]});
-express.use(crud);
+const BookCrud = createModelCRUDRouter({model: Books});
+express.use(BookCrud);
 ```
 
 To allow for preprocessing of requests before running the Sequelize Commands, a simple lifecycle would be included. They are named "beforeProc" and "afterProc".
 ```ts
 ...
-const BookCrud = crud.addModel({model: Books, prefix: "/"});
+const BookCrud = createModelCRUDRouter({model: Books});
 BookCrud.create.beforeProc(req => {
     if(!isValidSession(req.headers["Authorization"])) {
         throw new Error();
@@ -51,7 +50,7 @@ BookCrud.create.beforeProc(req => {
 However, you might need to use multiple preprocessing, so beforeProc and afterProc allows for queuing of functions.
 ```ts
 ...
-const BookCrud = crud.addModel({model: Books, prefix: "/"});
+const BookCrud = createModelCRUDRouter({model: Books});
 BookCrud.create.beforeProc(async req => {
     if(!isValidSession(req.headers["Authorization"])) 
         throw new Error();
