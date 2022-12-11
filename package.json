@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/larongbingo/blipblop#readme",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "sequelize": "^5.21.2"
   },
   "devDependencies": {
